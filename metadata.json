@@ -1,0 +1,6 @@
+{
+  "name": "GrosGrains Pro",
+  "description": "Application de gestion et conseil décisionnel IA pour grossistes de grains et épices selon le guide de référence 2026",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
