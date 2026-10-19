@@ -9,6 +9,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.automirrored.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -147,7 +148,7 @@ fun ProductCatalogView(
                     modifier = Modifier.padding(12.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Icon(Icons.AutoMirrored.Filled.Rule, contentDescription = null, tint = AgroGreenPrimary)
+                    Icon(Icons.Default.Rule, contentDescription = null, tint = AgroGreenPrimary)
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
                         text = "Méthode ABC (Guide p. 31) : Classe A (70-80% du CA, suivi serré) • Classe B (15-20%) • Classe C (5-10%)",
@@ -285,7 +286,7 @@ fun BatchLotsView(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Row(modifier = Modifier.padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
-                    Icon(Icons.AutoMirrored.Filled.FactCheck, contentDescription = null, tint = MaterialTheme.colorScheme.onPrimaryContainer)
+                    Icon(Icons.Default.FactCheck, contentDescription = null, tint = MaterialTheme.colorScheme.onPrimaryContainer)
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
                         text = "Code Lot Normalisé (p. 28) : [Produit]-[Origine]-[AAMMJJ]-[N°]. Exemple : GIR-ANA-260915-03 avec contre-échantillon scellé obligatoire.",
@@ -595,7 +596,7 @@ fun WarehouseZoningView(viewModel: MainViewModel, lang: String) {
                                             shape = RoundedCornerShape(6.dp),
                                             contentPadding = PaddingValues(horizontal = 10.dp, vertical = 4.dp)
                                         ) {
-                                            Icon(Icons.AutoMirrored.Filled.DriveFileMove, contentDescription = null, modifier = Modifier.size(14.dp))
+                                            Icon(Icons.Default.DriveFileMove, contentDescription = null, modifier = Modifier.size(14.dp))
                                             Spacer(modifier = Modifier.width(6.dp))
                                             Text("Déplacer vers ${move.toZone}", fontSize = 11.sp)
                                         }

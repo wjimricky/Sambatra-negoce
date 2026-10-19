@@ -36,7 +36,7 @@ sealed class Screen(val route: String, val titleFr: String, val titleMg: String,
     object Stocks : Screen("stocks", "Stocks & Lots", "Tahiry & Loko", Icons.Default.Inventory2)
     object Ventes : Screen("ventes", "Ventes & Crédits", "Varotra & Trosa", Icons.Default.People)
     object Conseiller : Screen("conseiller", "Conseiller IA", "Mpanolotsaina AI", Icons.Default.Psychology)
-    object Outils : Screen("outils", "Checklists & Cas", "Fitaovana & Ohatra", Icons.AutoMirrored.Filled.MenuBook)
+    object Outils : Screen("outils", "Checklists & Cas", "Fitaovana & Ohatra", Icons.Default.MenuBook)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

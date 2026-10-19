@@ -11,6 +11,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.automirrored.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -195,7 +196,7 @@ fun ClientsScreen(viewModel: MainViewModel) {
                             shape = RoundedCornerShape(8.dp),
                             contentPadding = PaddingValues(horizontal = 8.dp, vertical = 6.dp)
                         ) {
-                            Icon(Icons.AutoMirrored.Filled.ReceiptLong, contentDescription = null, tint = SpiceOrangeSecondary, modifier = Modifier.size(16.dp))
+                            Icon(Icons.Default.ReceiptLong, contentDescription = null, tint = SpiceOrangeSecondary, modifier = Modifier.size(16.dp))
                             Spacer(modifier = Modifier.width(4.dp))
                             Text("Bons BL & Audit", fontSize = 11.sp, color = SpiceOrangeSecondary)
                         }

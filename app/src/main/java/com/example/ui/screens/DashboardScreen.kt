@@ -11,6 +11,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.automirrored.filled.*
 import androidx.compose.material3.*
 import androidx.compose.foundation.Image
 import androidx.compose.ui.layout.ContentScale
@@ -52,6 +53,7 @@ fun DashboardScreen(viewModel: MainViewModel) {
     var showSeasonalityDialog by remember { mutableStateOf(false) }
     var showWorkingCapitalDialog by remember { mutableStateOf(false) }
     var showCommercialDocDialog by remember { mutableStateOf(false) }
+    var showAnnualClosingDialog by remember { mutableStateOf(false) }
 
     val domains = listOf("Tous", "Ventes", "Marge", "Stock", "Qualité", "Crédit", "Trésorerie", "Logistique")
     val filteredKpis = if (selectedDomainFilter == "Tous") kpis else kpis.filter { it.domain == selectedDomainFilter }
@@ -235,7 +237,7 @@ fun DashboardScreen(viewModel: MainViewModel) {
                                     color = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
                                 Icon(
-                                    Icons.AutoMirrored.Filled.TrendingUp,
+                                    Icons.Default.TrendingUp,
                                     contentDescription = null,
                                     tint = SpiceOrangeSecondary,
                                     modifier = Modifier.size(16.dp)
@@ -493,13 +495,39 @@ fun DashboardScreen(viewModel: MainViewModel) {
                             .clickable { showCommercialDocDialog = true }
                     ) {
                         Row(modifier = Modifier.padding(10.dp), verticalAlignment = Alignment.CenterVertically) {
-                            Icon(Icons.AutoMirrored.Filled.ReceiptLong, contentDescription = null, tint = Color(0xFF7C3AED), modifier = Modifier.size(20.dp))
+                            Icon(Icons.Default.ReceiptLong, contentDescription = null, tint = Color(0xFF7C3AED), modifier = Modifier.size(20.dp))
                             Spacer(modifier = Modifier.width(8.dp))
                             Column {
                                 Text("Documents & Audit", fontWeight = FontWeight.Bold, fontSize = 11.sp, color = Color(0xFF5B21B6))
                                 Text("BL, NIF/STAT, Freinte", fontSize = 9.sp, color = Color(0xFF8B5CF6))
                             }
                         }
+                    }
+                }
+
+                // Outils Étape 5 : Clôture Annuelle & Bilan d'Exploitation (Guide 2026 Chap. 14 & 16)
+                Card(
+                    colors = CardDefaults.cardColors(containerColor = Color(0xFFF0FDF4)),
+                    shape = RoundedCornerShape(12.dp),
+                    border = CardDefaults.outlinedCardBorder().copy(brush = androidx.compose.ui.graphics.SolidColor(AgroGreenPrimary)),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable { showAnnualClosingDialog = true }
+                ) {
+                    Row(
+                        modifier = Modifier.padding(12.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Icon(Icons.Default.AccountBalance, contentDescription = null, tint = AgroGreenPrimary, modifier = Modifier.size(22.dp))
+                            Spacer(modifier = Modifier.width(10.dp))
+                            Column {
+                                Text("Clôture Annuelle & Bilan d'Exploitation (Étape 5)", fontWeight = FontWeight.Bold, fontSize = 12.sp, color = Color(0xFF166534))
+                                Text("P&L, Marges 8 denrées, Point Mort, Scorecard Audit & Export PDF certifié", fontSize = 9.5.sp, color = Color(0xFF15803D))
+                            }
+                        }
+                        Icon(Icons.AutoMirrored.Filled.ArrowForward, contentDescription = null, tint = AgroGreenPrimary, modifier = Modifier.size(16.dp))
                     }
                 }
             }
@@ -797,6 +825,13 @@ fun DashboardScreen(viewModel: MainViewModel) {
         com.example.ui.components.CommercialDocumentDialog(
             viewModel = viewModel,
             onDismiss = { showCommercialDocDialog = false }
+        )
+    }
+
+    if (showAnnualClosingDialog) {
+        com.example.ui.components.AnnualClosingDialog(
+            viewModel = viewModel,
+            onDismiss = { showAnnualClosingDialog = false }
         )
     }
 }

@@ -11,6 +11,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.automirrored.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -102,7 +103,7 @@ fun AdvisorScreen(viewModel: MainViewModel) {
                 selected = selectedSubTab == 1,
                 onClick = { selectedSubTab = 1 },
                 text = { Text("Grille Achat (8 Q)", fontSize = 11.5.sp, fontWeight = FontWeight.Bold) },
-                icon = { Icon(Icons.AutoMirrored.Filled.FactCheck, contentDescription = null, modifier = Modifier.size(16.dp)) }
+                icon = { Icon(Icons.Default.FactCheck, contentDescription = null, modifier = Modifier.size(16.dp)) }
             )
             Tab(
                 selected = selectedSubTab == 2,
@@ -114,7 +115,7 @@ fun AdvisorScreen(viewModel: MainViewModel) {
                 selected = selectedSubTab == 3,
                 onClick = { selectedSubTab = 3 },
                 text = { Text("Prédiction Prix", fontSize = 11.5.sp, fontWeight = FontWeight.Bold) },
-                icon = { Icon(Icons.AutoMirrored.Filled.TrendingUp, contentDescription = null, modifier = Modifier.size(16.dp)) }
+                icon = { Icon(Icons.Default.TrendingUp, contentDescription = null, modifier = Modifier.size(16.dp)) }
             )
             Tab(
                 selected = selectedSubTab == 4,
@@ -1154,7 +1155,7 @@ fun PredictivePriceSectionView(onOpenFullDialog: () -> Unit) {
                             shape = RoundedCornerShape(8.dp),
                             contentPadding = PaddingValues(horizontal = 10.dp, vertical = 6.dp)
                         ) {
-                            Icon(Icons.AutoMirrored.Filled.TrendingUp, contentDescription = null, modifier = Modifier.size(14.dp))
+                            Icon(Icons.Default.TrendingUp, contentDescription = null, modifier = Modifier.size(14.dp))
                             Spacer(modifier = Modifier.width(4.dp))
                             Text("Simulateur ROI", fontSize = 11.sp, fontWeight = FontWeight.Bold)
                         }

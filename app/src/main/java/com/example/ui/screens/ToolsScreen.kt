@@ -10,6 +10,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.automirrored.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -57,7 +58,7 @@ fun ToolsScreen(viewModel: MainViewModel) {
                 selected = activeSubTab == 1,
                 onClick = { activeSubTab = 1 },
                 text = { Text("10 Cas Réels (p. 88)", fontSize = 11.sp, fontWeight = FontWeight.Bold) },
-                icon = { Icon(Icons.AutoMirrored.Filled.MenuBook, contentDescription = null, modifier = Modifier.size(16.dp)) }
+                icon = { Icon(Icons.Default.MenuBook, contentDescription = null, modifier = Modifier.size(16.dp)) }
             )
             Tab(
                 selected = activeSubTab == 2,
@@ -89,6 +90,12 @@ fun ToolsScreen(viewModel: MainViewModel) {
                 text = { Text("Audit & BFR (p. 81)", fontSize = 11.sp, fontWeight = FontWeight.Bold) },
                 icon = { Icon(Icons.Default.AccountBalance, contentDescription = null, modifier = Modifier.size(16.dp)) }
             )
+            Tab(
+                selected = activeSubTab == 7,
+                onClick = { activeSubTab = 7 },
+                text = { Text("Clôture 2026 (p. 96)", fontSize = 11.sp, fontWeight = FontWeight.Bold) },
+                icon = { Icon(Icons.Default.Verified, contentDescription = null, modifier = Modifier.size(16.dp)) }
+            )
         }
 
         when (activeSubTab) {
@@ -99,6 +106,7 @@ fun ToolsScreen(viewModel: MainViewModel) {
             4 -> LogisticsEmbeddedToolView()
             5 -> WeatherEmbeddedToolView()
             6 -> WorkingCapitalAndAuditEmbeddedView(viewModel)
+            7 -> AnnualClosingEmbeddedView(viewModel)
         }
     }
 }
@@ -1019,7 +1027,7 @@ fun WorkingCapitalAndAuditEmbeddedView(viewModel: MainViewModel) {
                     shape = RoundedCornerShape(12.dp),
                     modifier = Modifier.weight(1f)
                 ) {
-                    Icon(Icons.AutoMirrored.Filled.ReceiptLong, contentDescription = null, modifier = Modifier.size(16.dp))
+                    Icon(Icons.Default.ReceiptLong, contentDescription = null, modifier = Modifier.size(16.dp))
                     Spacer(modifier = Modifier.width(6.dp))
                     Text("Bons BL & Audit", fontSize = 11.sp)
                 }
@@ -1097,6 +1105,185 @@ fun WorkingCapitalAndAuditEmbeddedView(viewModel: MainViewModel) {
         com.example.ui.components.CommercialDocumentDialog(
             viewModel = viewModel,
             onDismiss = { showCommercialDialog = false }
+        )
+    }
+}
+
+@Composable
+fun AnnualClosingEmbeddedView(viewModel: MainViewModel) {
+    val context = androidx.compose.ui.platform.LocalContext.current
+    val products by viewModel.products.collectAsState()
+    val lots by viewModel.lots.collectAsState()
+    val clients by viewModel.clients.collectAsState()
+    var showFullDialog by remember { mutableStateOf(false) }
+
+    val pnl = remember(products, lots, clients) {
+        com.example.data.closing.AnnualClosingEngine.calculateAnnualPnl(products, lots, clients)
+    }
+    val scorecard = remember(products, lots, clients) {
+        com.example.data.closing.AnnualClosingEngine.generateAnnualAuditScorecard(
+            products = products,
+            lots = lots,
+            clients = clients,
+            treasuryAr = 10_000_000.0
+        )
+    }
+
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(vertical = 8.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        // En-tête
+        item {
+            Card(
+                colors = CardDefaults.cardColors(containerColor = Color(0xFFF0FDF4)),
+                border = CardDefaults.outlinedCardBorder().copy(brush = androidx.compose.ui.graphics.SolidColor(AgroGreenPrimary)),
+                shape = RoundedCornerShape(14.dp),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Column(modifier = Modifier.padding(14.dp)) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Surface(
+                                shape = CircleShape,
+                                color = AgroGreenPrimary.copy(alpha = 0.15f),
+                                modifier = Modifier.size(40.dp)
+                            ) {
+                                Box(contentAlignment = Alignment.Center) {
+                                    Icon(Icons.Default.Verified, contentDescription = null, tint = AgroGreenPrimary, modifier = Modifier.size(24.dp))
+                                }
+                            }
+                            Spacer(modifier = Modifier.width(10.dp))
+                            Column {
+                                Text(
+                                    text = "Clôture d'Exercice 2026 (Étape 5)",
+                                    style = MaterialTheme.typography.titleMedium,
+                                    fontWeight = FontWeight.Bold,
+                                    color = AgroGreenPrimary
+                                )
+                                Text(
+                                    text = "Chapitres 14 & 16 : Compte de Résultat, Audit 100 pts & Budget N+1",
+                                    fontSize = 11.sp,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(10.dp))
+                    Text(
+                        text = "« La clôture d'exercice d'un grossiste ne consiste pas à faire de simples calculs fiscaux : c'est l'arbitrage stratégique qui décide si Sambatra réinvestit dans 200 tonnes de paddy Alaotra ou diversifie vers la vanille et les épices nobles de la Côte Est sans mettre en péril sa liquidité. » (Guide p. 96)",
+                        fontSize = 11.sp,
+                        fontStyle = androidx.compose.ui.text.font.FontStyle.Italic,
+                        color = Color(0xFF166534),
+                        lineHeight = 15.sp
+                    )
+                }
+            }
+        }
+
+        // Cartes Synthèse P&L
+        item {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Card(
+                    modifier = Modifier.weight(1f),
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
+                    shape = RoundedCornerShape(10.dp)
+                ) {
+                    Column(modifier = Modifier.padding(10.dp)) {
+                        Text("CA Annuel", fontSize = 10.sp, color = MaterialTheme.colorScheme.onPrimaryContainer)
+                        Text(
+                            "${String.format(java.util.Locale.FRENCH, "%,.0f", pnl.grossTurnoverAr)} Ar",
+                            fontSize = 12.5.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.onPrimaryContainer
+                        )
+                    }
+                }
+
+                Card(
+                    modifier = Modifier.weight(1f),
+                    colors = CardDefaults.cardColors(containerColor = Color(0xFFDCFCE7)),
+                    shape = RoundedCornerShape(10.dp)
+                ) {
+                    Column(modifier = Modifier.padding(10.dp)) {
+                        Text("Résultat Net", fontSize = 10.sp, color = Color(0xFF15803D))
+                        Text(
+                            "${String.format(java.util.Locale.FRENCH, "%,.0f", pnl.netOperatingProfitAr)} Ar",
+                            fontSize = 12.5.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color(0xFF15803D)
+                        )
+                    }
+                }
+
+                Card(
+                    modifier = Modifier.weight(1f),
+                    colors = CardDefaults.cardColors(containerColor = Color(0xFFFEF3C7)),
+                    shape = RoundedCornerShape(10.dp)
+                ) {
+                    Column(modifier = Modifier.padding(10.dp)) {
+                        Text("Audit 2026", fontSize = 10.sp, color = Color(0xFFB45309))
+                        Text(
+                            "${scorecard.overallScore}/100",
+                            fontSize = 12.5.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color(0xFFB45309)
+                        )
+                    }
+                }
+            }
+        }
+
+        // Bouton Ouvrir Module Complet
+        item {
+            Button(
+                onClick = { showFullDialog = true },
+                colors = ButtonDefaults.buttonColors(containerColor = AgroGreenPrimary),
+                shape = RoundedCornerShape(12.dp),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Icon(Icons.Default.AccountBalance, contentDescription = null, modifier = Modifier.size(18.dp))
+                Spacer(modifier = Modifier.width(8.dp))
+                Text("Ouvrir le Module Complet de Clôture & Bilan Annuel", fontWeight = FontWeight.Bold)
+            }
+        }
+
+        // Actions PDF Rapide
+        item {
+            OutlinedButton(
+                onClick = {
+                    val pdfFile = com.example.data.report.AnnualAuditPdfReportGenerator.generateAnnualClosingPdf(
+                        context = context,
+                        pnl = pnl,
+                        scorecard = scorecard
+                    )
+                    if (pdfFile != null) {
+                        com.example.data.report.AnnualAuditPdfReportGenerator.openOrSharePdf(context, pdfFile)
+                    }
+                },
+                shape = RoundedCornerShape(12.dp),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Icon(Icons.Default.PictureAsPdf, contentDescription = null, modifier = Modifier.size(18.dp))
+                Spacer(modifier = Modifier.width(8.dp))
+                Text("Générer le Bilan Officiel PDF Certifié 2026")
+            }
+        }
+    }
+
+    if (showFullDialog) {
+        com.example.ui.components.AnnualClosingDialog(
+            viewModel = viewModel,
+            onDismiss = { showFullDialog = false }
         )
     }
 }

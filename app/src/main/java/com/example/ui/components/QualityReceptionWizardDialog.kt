@@ -10,6 +10,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.automirrored.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -143,7 +144,7 @@ fun QualityReceptionWizardDialog(
                     Column {
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Icon(
-                                Icons.AutoMirrored.Filled.FactCheck,
+                                Icons.Default.FactCheck,
                                 contentDescription = null,
                                 tint = AgroGreenPrimary,
                                 modifier = Modifier.size(24.dp)
@@ -444,7 +445,7 @@ private fun Step1Documentary(
             shape = RoundedCornerShape(10.dp)
         ) {
             Row(modifier = Modifier.padding(10.dp), verticalAlignment = Alignment.CenterVertically) {
-                Icon(Icons.AutoMirrored.Filled.Assignment, contentDescription = null, tint = AgroGreenPrimary)
+                Icon(Icons.Default.Assignment, contentDescription = null, tint = AgroGreenPrimary)
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
                     text = "Étape 1 : Contrôle documentaire & Traçabilité (Guide p. 22)\nVérifier la concordance exacte entre la commande, le bon de livraison et la marchandise.",
